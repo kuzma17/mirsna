@@ -1,0 +1,41 @@
+<?php if($id_page != 'trexnh54bvfs32'){Header("Location: index.php");} ?>
+<?php
+// Module Table Price 2
+$item = $_GET['item']; // id item 
+$arr_x=$body->size("size_x", $item, 0);
+$arr_y=$body->size("size_y", $item, 0);
+$arr_price=$body->price($item);
+$num_price=count($arr_price);
+echo '<div id="clear"></div>';
+echo '<p><strong>Прайс '.$body->brend($_GET["brend"]).' грн.';
+if($body->discount($_GET['item'])){
+echo ' с учетом <font style="color:red">акции - '.$body->discount($_GET['item']).'%</font>';
+}
+echo '</strong></p>';
+echo '<table class="price" cellspacing="1" cellpadding="1" style="width:80%">
+<tr><td>Ширина (мм)</td><td>Длинна (мм)</td><td>Стоимость модели (грн.)</td></tr>';
+for($i=0; $i < $num_price; $i++){
+echo '<tr><td>'.$arr_x[$i].'</td><td>'.$arr_y[$i].'</td>';
+if($arr_price[$arr_x[$i]][$arr_y[$i]]['discount']==0){
+			echo '<td>'.$arr_price[$arr_x[$i]][$arr_y[$i]]['price'].'</td>';
+			}else{
+			echo '<td><font style="text-decoration:line-through; color:#8E8E8E">'.$arr_price[$arr_x[$i]][$arr_y[$i]]['price'].'</font><br>
+<font style="color:red">'.$arr_price[$arr_x[$i]][$arr_y[$i]]['price_action'].'</font></td>';
+			}
+echo '</tr>';	
+}
+//$price_m2 = $body->price_m2($item);
+
+if($price_m2 = $body->price_m2($item)){
+
+echo '<tr><td colspan=2>Нестандартный размер (стоимость за 1 кв. м.)</td><td>';
+if($body->discount($_GET['item'])){
+echo '<font style="text-decoration:line-through; color:#8E8E8E">'.$price_m2['price_m2'].'</font> <font style="color:red">'.$price_m2['price_m2_actions'].'</font>';
+}else{
+echo $price_m2['price_m2'];
+}
+echo '</td>
+</tr>';
+}
+echo '</table>';
+?>

@@ -1,0 +1,49 @@
+<?php if($id_page != 'trexnh54bvfs32'){Header("Location: index.php");} ?>
+<?php
+if($arr_actions=$body->actions()){
+
+foreach ($arr_actions as $actions){
+echo '<p><strong>C <font style="color:red;font-weight:normal">'.$actions['date_from'].'</font> по <font style="color:red;font-weight:normal">'.$actions['date_to'].'</font> действует акция '.$actions['name'].'.</strong></p>';
+if($actions['text']!=''){
+echo $actions['text'];
+}
+$arr_list_actions=$body->list_actions($actions['id']);
+	foreach ($arr_list_actions as $row){
+	?>
+
+<div class="list_item" urlpage="index.php?<?php echo'id=productions&brend='.$row['id_brend'].'&type='.$row['id_type_item'].'&series='.$row['id_series'].'&item='.$row['id']; ?>">
+<h3><?php echo $row['name']; ?></h3>
+<div style="width:145px;float:left;margin-right:10px">
+<?php if($row['img_anons']!=''){
+echo '<img src="images/'.$row["img_anons"].'">';
+//--discount---
+echo '<div class="discount_list">-'.$row['discount'].'%</div>';
+//-------------
+} 
+?>
+</div>
+<?php
+echo '<div style="float:left; width:570px">'.$row['anons'];
+?>
+<div class="sale_box">
+<div style="float:left;margin:5px;margin-left:10px;">
+<?php
+echo '<span class="font_sale" style="color:red">акционная цена '.$row['min_price'];
+if($row['min_price'] != $row['max_price']){
+echo ' - '.$row['max_price'];
+}
+echo ' грн.</span>';
+?>
+</div>
+<div style="float:left;height:26px;width:14px;background:url(images/sale3.png) no-repeat;"></div>
+</div>
+<A href="index.php?<?php echo'id=productions&brend='.$row['id_brend'].'&type='.$row['id_type_item'].'&series='.$row['id_series'].'&item='.$row['id']; ?>">подробнее >></A>
+</div>
+<div id="clear"></div>
+</div>
+<?php
+	}
+}
+}else{
+echo "<p><strong>В настоящее время акции не действуют.</strong></p>";
+}
